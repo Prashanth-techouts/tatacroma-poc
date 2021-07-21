@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!-- WARNING: This is the Spring WEB configuration file. If you want to replace 
+	items or managers you have to do this from the extensions core configuration 
+	file (poccromawebservices/resources/poccromawebservices-spring.xml) -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config/>
+
+	<!-- Uncomment to enable version v1 -->
+	<!--<import resource="config/v1-web-spring.xml"/>-->
+
+	<import resource="config/v2-web-spring.xml"/>
+
+	<!-- don't change the order, it needs to be at the end -->
+	<import resource="config/common-web-spring.xml"/>
+
+
+	<bean id="cromaCategorySolrDataService" class="de.techouts.poccromawebservices.solr.CromaCategorySolrDataService">
+	   <property name="commerceCategoryService" ref="commerceCategoryService"></property>
+	   <property name="cmsPageService" ref="cmsPageService"></property>
+	
+	</bean>
+	
+	<bean id="cmsPageDataService" class="de.techouts.poccromawebservices.services.impl.CmsPageDataService"></bean>
+    
+    <bean id="cmsPageDataFacade" class="de.techouts.poccromawebservices.facades.impl.CmsSolrDataFacade">
+       <property name="cmsPageDataService" ref="cmsPageDataService"/>
+       <property name="cromaCategorySolrDataService" ref="cromaCategorySolrDataService"/>
+    </bean>
+    
+
+</beans>
